@@ -95,6 +95,7 @@ class IResolver:
                 return iter([None])
 
             module = importlib.util.module_from_spec(spec)
+            sys.modules[module_name] = module  # fix: torch.save ref->https://stackoverflow.com/questions/74841508/cant-pickle-class-import-of-module-failed
             try:
                 spec.loader.exec_module(module)  # type: ignore # importlib does not use typehints
             except (
